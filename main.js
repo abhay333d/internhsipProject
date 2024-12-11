@@ -48,19 +48,18 @@ const _settings = {
   },
 
   // model settings:
-  modelURL: "assets/seiko_watch.glb",
-  modelScale: 1.3 * 1.462,
+  modelURL: "assets/braclet.glb",
+  modelScale: 1.3 * 6.25,
   //modelOffset: [0.076, -0.916, -0.504],
   modelOffset: [-0.3, 0.5, -0.504], // bring pinky side, up
-
-  modelQuaternion: [-0.707, 0.707, 0, 0.2], // Format: X,Y,Z,W (and not W,X,Y,Z like Blender)
+  // [-0.641, 0.5, -0.5, -0.359]
+  modelQuaternion: [0, 0, 0, 1], // Format: X,Y,Z,W (and not W,X,Y,Z like Blender)
 
   // debug flags:
   debugDisplayLandmarks: false,
   debugMeshMaterial: false,
   debugOccluder: false,
 };
-
 const _states = {
   notLoaded: -1,
   loading: 0,
@@ -182,12 +181,14 @@ function load_model(threeLoadingManager) {
       if (_settings.modelOffset) {
         const d = _settings.modelOffset;
         const displacement = new THREE.Vector3(d[0], d[2], -d[1]); // inverse Y and Z
-        me.position.x -= 4.78;
+        // me.position.x -= 4.78;  //For watch
+        me.position.x += 0.5; //For Bracelet
         me.position.add(displacement);
       }
       if (_settings.modelQuaternion) {
         const q = _settings.modelQuaternion;
         me.quaternion.set(q[0], q[2], -q[1], q[3]);
+        me.rotation.z = 3;
       }
 
       // add to the tracker:
